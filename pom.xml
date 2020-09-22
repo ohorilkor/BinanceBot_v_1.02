@@ -1,12 +1,90 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<modelVersion>4.0.0</modelVersion>
 
-    <groupId>groupId</groupId>
-    <artifactId>BinanceBot_v_1.02</artifactId>
-    <version>1.0-SNAPSHOT</version>
+<groupId>com.company</groupId>
+<artifactId>Main</artifactId>
+<version>1.0-SNAPSHOT</version>
 
-    
+<properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <jdk.version>1.8</jdk.version>
+</properties>
+
+<dependencies>
+    <dependency>
+        <groupId>org.telegram</groupId>
+        <artifactId>telegrambots</artifactId>
+        <version>4.9.1</version>
+    </dependency>
+
+    <dependency>
+        <groupId>net.openhft.com.binance.api</groupId>
+        <artifactId>binance-api-client</artifactId>
+        <version>2.17.1</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.google.inject</groupId>
+        <artifactId>guice</artifactId>
+        <version>4.2.3</version>
+    </dependency>
+
+    <dependency>
+        <groupId>com.heroku.sdk</groupId>
+        <artifactId>heroku-maven-plugin</artifactId>
+        <version>3.0.4</version>
+    </dependency>
+    <dependency>
+        <groupId>com.heroku.sdk</groupId>
+        <artifactId>heroku-deploy</artifactId>
+        <version>3.0.4</version>
+    </dependency>
+    <dependency>
+        <groupId>org.jetbrains</groupId>
+        <artifactId>annotations</artifactId>
+        <version>RELEASE</version>
+        <scope>compile</scope>
+    </dependency>
+
+
+</dependencies>
+
+<build>
+
+    <plugins>
+        <plugin>
+            <groupId>com.heroku.sdk</groupId>
+            <artifactId>heroku-maven-plugin</artifactId>
+            <version>3.0.3</version>
+            <configuration>
+                <appName>Main</appName>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>appassembler-maven-plugin</artifactId>
+            <version>1.1.1</version>
+            <configuration>
+                <assembleDirectory>target</assembleDirectory>
+                <programs>
+                    <program>
+                        <mainClass>com.company.Main</mainClass>
+                        <name>workerBot</name>
+                    </program>
+                </programs>
+            </configuration>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>assemble</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+
 </project>
