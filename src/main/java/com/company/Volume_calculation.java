@@ -37,7 +37,7 @@ public class Volume_calculation {
         System.out.println("===================================================================");
         System.out.println("===================================================================");
 */
-        if((top_proz * 100) > 1){
+        if((top_proz * 100) > 10.0){
             message.setText("Top Crypto = " + top_elem.getSymbol() + "\nVolume change = " + top_proz * 100 + "%");
             return true;
         }
