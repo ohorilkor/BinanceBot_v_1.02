@@ -15,7 +15,7 @@ public class Volume_calculation {
         BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance("", "");
         BinanceApiRestClient client = factory.newRestClient();
 
-        List<Candlestick> candlesticks;
+        List<Candlestick> candlesticks, top_candlestick = null;
         List<TickerStatistics> all24Statistics = client.getAll24HrPriceStatistics();
         TickerStatistics top_elem = new TickerStatistics();
 
@@ -25,11 +25,12 @@ public class Volume_calculation {
             if (all24Statistics.get(i).getSymbol().endsWith("USDT")) {
                 candlesticks = client.getCandlestickBars(all24Statistics.get(i).getSymbol(), CandlestickInterval.ONE_MINUTE, 2, (Long) null, (Long) null);
                 double volDifference = Double.parseDouble(candlesticks.get(0).getVolume()) / Double.parseDouble(all24Statistics.get(i).getVolume());
-                if (top_proz < volDifference && !Double.isInfinite(volDifference)) {
+                if (top_proz < volDifference && !Double.isInfinite(volDifference) && Double.parseDouble(all24Statistics.get(i).getLastPrice()) > Double.parseDouble(candlesticks.get(0).getClose())) {
                     top_proz = volDifference;
                     top_elem = all24Statistics.get(i);
+                    top_candlestick = candlesticks;
                 }
-               // System.out.println(all24Statistics.get(i).getSymbol() + " current Volume = " + (volDifference) * 100 + "%");
+             //  System.out.println(all24Statistics.get(i).getSymbol() + " current Volume = " + (volDifference) * 100 + "%\n" + "Last Price = " + all24Statistics.get(i).getLastPrice() + "\nOld Price = " + candlesticks.get(0).getClose());
             }
         }
        /* System.out.println("===================================================================");
@@ -38,7 +39,8 @@ public class Volume_calculation {
         System.out.println("===================================================================");
 */
         if((top_proz * 100) > 10.0){
-            message.setText("Top Crypto = " + top_elem.getSymbol() + "\nVolume change = " + top_proz * 100 + "%");
+            message.setText("Top Crypto = " + top_elem.getSymbol() + "\nVolume change = " + top_proz * 100 + "%\n"
+                            + "Old Price = "+ top_candlestick.get(0).getClose() + "\nCurrent Price = " + top_elem.getLastPrice());
             return true;
         }
         return false;
