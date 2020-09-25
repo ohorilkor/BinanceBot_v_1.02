@@ -71,6 +71,6 @@ public class KravzivCryptoBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "1377586865:AAFBrgy15GhYqweIIKHWhF_tkiSWe5aZ9_o";
+        return "1396206280:AAGD-fflkdf43DKrktfwN90aYEvTY4OeirA";
     }
 }
